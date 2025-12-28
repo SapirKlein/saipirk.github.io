@@ -1,26 +1,90 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>sAipirK.ai</title>
-  <style>
-    body {
-      background: black;
-      color: white;
-      font-family: monospace;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      text-align: center;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>sAIpirK</title>
+
+<style>
+body {
+  margin: 0;
+  background: black;
+  color: #00ff00;
+  font-family: monospace;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+#screen {
+  font-size: 2rem;
+  text-align: center;
+  animation: shake 0.2s infinite;
+}
+
+.hidden {
+  display: none;
+}
+
+.big {
+  font-size: 6rem;
+}
+
+@keyframes shake {
+  0% { transform: translate(0,0); }
+  25% { transform: translate(2px,2px); }
+  50% { transform: translate(-2px,2px); }
+  75% { transform: translate(2px,-2px); }
+  100% { transform: translate(-2px,-2px); }
+}
+</style>
 </head>
+
 <body>
-  <div>
-    You think you are the only one that can do cool stuff?<br><br>
-    Sikeeeeee 😘<br><br>
-    Xoxo<br>
-    your wife
-  </div>
+
+<div id="screen">😈</div>
+
+<audio id="laugh">
+  <source src="https://www.soundjay.com/human/evil-laugh-1.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const screen = document.getElementById("screen");
+const laugh = document.getElementById("laugh");
+
+laugh.play();
+
+setTimeout(() => {
+  screen.classList.add("hidden");
+}, 2000);
+
+setTimeout(() => {
+  screen.classList.remove("hidden");
+  screen.classList.remove("big");
+  screen.textContent = "You think you’re the only one that can do cool stuff??";
+}, 3000);
+
+setTimeout(() => {
+  screen.classList.add("hidden");
+}, 5500);
+
+setTimeout(() => {
+  screen.classList.remove("hidden");
+  screen.classList.add("big");
+  screen.textContent = "SIKEEEEEEEE🖕";
+}, 6500);
+
+setTimeout(() => {
+  screen.classList.add("hidden");
+}, 9000);
+
+setTimeout(() => {
+  screen.classList.remove("hidden");
+  screen.classList.remove("big");
+  screen.textContent = "xoxo your wife :)";
+}, 10000);
+</script>
+
 </body>
 </html>
