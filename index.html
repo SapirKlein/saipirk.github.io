@@ -1,158 +1,98 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>sAipirK</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SIKE 😈</title>
 
   <style>
-    body{
-      margin:0;
-      background:#000;
-      color:#fff;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
-      height:100vh;
-      display:grid;
-      place-items:center;
-      overflow:hidden;
+    body {
+      margin: 0;
+      background: black;
+      color: white;
+      font-family: monospace;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
     }
 
-    #screen{
-      text-align:center;
-      padding:24px;
-      user-select:none;
+    #screen {
+      text-align: center;
+      animation: shake 0.15s infinite;
     }
 
-    .hidden{ display:none; }
-
-    .shake{
-      animation: shake 0.12s infinite;
+    .hidden {
+      display: none;
     }
 
-    @keyframes shake{
-      0%   { transform: translate(0,0) rotate(0deg); }
-      20%  { transform: translate(-2px, 1px) rotate(-1deg); }
-      40%  { transform: translate(2px, -1px) rotate(1deg); }
-      60%  { transform: translate(-2px, -1px) rotate(0deg); }
-      80%  { transform: translate(2px, 1px) rotate(-1deg); }
-      100% { transform: translate(0,0) rotate(0deg); }
-    }
-
-    .big-emoji{
-      font-size: clamp(180px, 28vw, 320px); /* 😈 גדול יותר */
+    .emoji {
+      font-size: 180px; /* 😈 ענק */
       line-height: 1;
     }
 
-    .mid-text{
-      font-size: clamp(22px, 4vw, 44px);
-      font-weight: 600;
-      letter-spacing: 0.5px;
-    }
-
-    .big-text{
-      font-size: clamp(48px, 8vw, 110px);
-      font-weight: 900;
+    .big {
+      font-size: 90px;
+      font-weight: bold;
       letter-spacing: 2px;
-      text-transform: uppercase;
     }
 
-    .small-text{
-      font-size: clamp(18px, 3vw, 34px);
-      opacity: 0.95;
+    .mid {
+      font-size: 36px;
     }
 
-    /* הודעת "Tap to start" קטנה */
-    #hint{
-      position: fixed;
-      top: 14px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 14px;
-      opacity: 0.65;
-      letter-spacing: 0.5px;
+    @keyframes shake {
+      0% { transform: translate(0, 0); }
+      25% { transform: translate(2px, -2px); }
+      50% { transform: translate(-2px, 2px); }
+      75% { transform: translate(2px, 2px); }
+      100% { transform: translate(0, 0); }
     }
   </style>
 </head>
 
 <body>
-  <div id="hint">tap to start 🔊</div>
-
   <div id="screen">
-    <div id="step1" class="big-emoji shake">😈</div>
+    <div id="step1" class="emoji">😈</div>
 
-    <div id="step2" class="mid-text hidden">
+    <div id="step2" class="mid hidden">
       You think you’re the only one that can do cool stuff??
     </div>
 
-    <div id="step3" class="big-text hidden">
+    <div id="step3" class="big hidden">
       SIKEEEEEEEE 🖕
     </div>
 
-    <div id="step4" class="small-text hidden">
-      xoxo your wife :)
+    <div id="step4" class="mid hidden">
+      xoxo<br/>your wife :)
     </div>
   </div>
 
-  <!-- צחוק קצר (עובד רק אחרי טאצ׳ ראשון באייפון) -->
-  <audio id="laugh" preload="auto">
-    <source src="https://actions.google.com/sounds/v1/human_voices/evil_laugh.ogg" type="audio/ogg">
-    <source src="https://actions.google.com/sounds/v1/human_voices/evil_laugh.mp3" type="audio/mpeg">
-  </audio>
+  <!-- צחוק -->
+  <audio id="laugh" src="https://www.myinstants.com/media/sounds/evil-laugh.mp3"></audio>
 
   <script>
-    const s1 = document.getElementById('step1');
-    const s2 = document.getElementById('step2');
-    const s3 = document.getElementById('step3');
-    const s4 = document.getElementById('step4');
-    const hint = document.getElementById('hint');
-    const laugh = document.getElementById('laugh');
+    const laugh = document.getElementById("laugh");
 
-    let started = false;
+    setTimeout(() => {
+      laugh.play();
+    }, 500);
 
-    function show(el){
-      el.classList.remove('hidden');
-      el.classList.add('shake');
-    }
-    function hide(el){
-      el.classList.add('hidden');
-      el.classList.remove('shake');
-    }
+    setTimeout(() => {
+      step1.classList.add("hidden");
+      step2.classList.remove("hidden");
+    }, 2000);
 
-    function startSequence(){
-      if(started) return;
-      started = true;
-      hint.style.display = 'none';
+    setTimeout(() => {
+      step2.classList.add("hidden");
+      step3.classList.remove("hidden");
+    }, 4000);
 
-      // ניסיון להשמיע צחוק (ייתכן שידלק רק אחרי טאצ׳)
-      try { laugh.currentTime = 0; laugh.play(); } catch(e) {}
-
-      // 1) 😈 גדול ורועד -> נעלם
-      show(s1);
-      setTimeout(() => {
-        hide(s1);
-
-        // 2) משפט ראשון -> נעלם
-        show(s2);
-        setTimeout(() => {
-          hide(s2);
-
-          // 3) SIKEEEEEEEE🖕 גדול ורועד -> נעלם
-          show(s3);
-          setTimeout(() => {
-            hide(s3);
-
-            // 4) xoxo your wife :)
-            show(s4);
-          }, 1400);
-
-        }, 1700);
-
-      }, 1400);
-    }
-
-    // באייפון חייב אינטראקציה (טאפ) כדי לאפשר אודיו
-    document.addEventListener('click', startSequence, { once: true });
-    document.addEventListener('touchstart', startSequence, { once: true });
+    setTimeout(() => {
+      step3.classList.add("hidden");
+      step4.classList.remove("hidden");
+    }, 6000);
   </script>
 </body>
 </html>
