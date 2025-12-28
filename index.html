@@ -2,44 +2,48 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SIKE 😈</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SApiRK</title>
 
   <style>
     body {
       margin: 0;
       background: black;
       color: white;
-      font-family: monospace;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
       height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: grid;
+      place-items: center;
       overflow: hidden;
     }
 
     #screen {
       text-align: center;
-      animation: shake 0.15s infinite;
+      padding: 20px;
     }
 
     .hidden {
       display: none;
     }
 
-    .emoji {
-      font-size: 180px; /* 😈 ענק */
+    .big-emoji {
+      font-size: 160px;
       line-height: 1;
     }
 
-    .big {
-      font-size: 90px;
-      font-weight: bold;
+    .text {
+      font-size: clamp(26px, 4vw, 44px);
+    }
+
+    .sike {
+      font-size: clamp(48px, 7vw, 72px);
+      font-weight: 800;
       letter-spacing: 2px;
     }
 
-    .mid {
-      font-size: 36px;
+    .shake {
+      display: inline-block;
+      animation: shake 0.12s infinite;
     }
 
     @keyframes shake {
@@ -53,31 +57,39 @@
 </head>
 
 <body>
-  <div id="screen">
-    <div id="step1" class="emoji">😈</div>
 
-    <div id="step2" class="mid hidden">
+  <div id="screen">
+    <div id="step1" class="big-emoji shake">😈</div>
+
+    <div id="step2" class="text hidden">
       You think you’re the only one that can do cool stuff??
     </div>
 
-    <div id="step3" class="big hidden">
-      SIKEEEEEEEE 🖕
+    <div id="step3" class="sike hidden">
+      <span class="shake">SIKEEEEEEEE</span> 🫨
     </div>
 
-    <div id="step4" class="mid hidden">
-      xoxo<br/>your wife :)
+    <div id="step4" class="text hidden">
+      xoxo your wife :)
     </div>
   </div>
 
-  <!-- צחוק -->
-  <audio id="laugh" src="https://www.myinstants.com/media/sounds/evil-laugh.mp3"></audio>
+  <!-- צליל צחוק -->
+  <audio id="laugh" preload="auto">
+    <source src="https://assets.mixkit.co/sfx/preview/mixkit-evil-laugh-1409.mp3" type="audio/mpeg">
+  </audio>
 
   <script>
+    const step1 = document.getElementById("step1");
+    const step2 = document.getElementById("step2");
+    const step3 = document.getElementById("step3");
+    const step4 = document.getElementById("step4");
     const laugh = document.getElementById("laugh");
 
-    setTimeout(() => {
-      laugh.play();
-    }, 500);
+    // חובה נגיעה במסך בשביל אודיו באייפון
+    document.body.addEventListener("click", () => {
+      laugh.play().catch(() => {});
+    }, { once: true });
 
     setTimeout(() => {
       step1.classList.add("hidden");
@@ -87,12 +99,14 @@
     setTimeout(() => {
       step2.classList.add("hidden");
       step3.classList.remove("hidden");
-    }, 4000);
+      laugh.play().catch(() => {});
+    }, 4500);
 
     setTimeout(() => {
       step3.classList.add("hidden");
       step4.classList.remove("hidden");
-    }, 6000);
+    }, 7000);
   </script>
+
 </body>
 </html>
