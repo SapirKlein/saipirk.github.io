@@ -2,176 +2,157 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>sAIpirK</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>sAipirK</title>
+
   <style>
-    body {
-      margin: 0;
-      background: #000;
-      color: #fff;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-      height: 100vh;
-      display: grid;
-      place-items: center;
-      overflow: hidden;
+    body{
+      margin:0;
+      background:#000;
+      color:#fff;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+      height:100vh;
+      display:grid;
+      place-items:center;
+      overflow:hidden;
     }
 
-    #screen {
-      text-align: center;
-      padding: 24px;
-      user-select: none;
+    #screen{
+      text-align:center;
+      padding:24px;
+      user-select:none;
     }
 
-    .shake {
+    .hidden{ display:none; }
+
+    .shake{
       animation: shake 0.12s infinite;
     }
 
-    .big-emoji {
-      font-size: 140px; /* 😈 גדול */
-      line-height: 1;
-    }
-
-    .big-text {
-      font-size: clamp(40px, 7vw, 90px);
-      font-weight: 800;
-      letter-spacing: 1px;
-    }
-
-    .mid-text {
-      font-size: clamp(22px, 4vw, 44px);
-      font-weight: 600;
-    }
-
-    .small-text {
-      font-size: clamp(18px, 3vw, 28px);
-      opacity: 0.95;
-    }
-
-    .fade-out {
-      animation: fadeOut 0.35s forwards;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    #tapToStart {
-      position: fixed;
-      inset: 0;
-      display: grid;
-      place-items: center;
-      background: rgba(0,0,0,0.85);
-      color: #fff;
-      text-align: center;
-      padding: 24px;
-      z-index: 50;
-    }
-
-    #tapToStart button {
-      margin-top: 14px;
-      padding: 12px 16px;
-      border-radius: 10px;
-      border: 1px solid #fff;
-      background: transparent;
-      color: #fff;
-      font: inherit;
-    }
-
-    @keyframes shake {
-      0%   { transform: translate(0, 0) rotate(0deg); }
+    @keyframes shake{
+      0%   { transform: translate(0,0) rotate(0deg); }
       20%  { transform: translate(-2px, 1px) rotate(-1deg); }
       40%  { transform: translate(2px, -1px) rotate(1deg); }
       60%  { transform: translate(-2px, -1px) rotate(0deg); }
       80%  { transform: translate(2px, 1px) rotate(-1deg); }
-      100% { transform: translate(0, 0) rotate(0deg); }
+      100% { transform: translate(0,0) rotate(0deg); }
     }
 
-    @keyframes fadeOut {
-      to { opacity: 0; transform: scale(0.98); }
+    .big-emoji{
+      font-size: clamp(180px, 28vw, 320px); /* 😈 גדול יותר */
+      line-height: 1;
+    }
+
+    .mid-text{
+      font-size: clamp(22px, 4vw, 44px);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .big-text{
+      font-size: clamp(48px, 8vw, 110px);
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .small-text{
+      font-size: clamp(18px, 3vw, 34px);
+      opacity: 0.95;
+    }
+
+    /* הודעת "Tap to start" קטנה */
+    #hint{
+      position: fixed;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 14px;
+      opacity: 0.65;
+      letter-spacing: 0.5px;
     }
   </style>
 </head>
-<body>
 
-  <!-- שכבת "תלחץ כדי להתחיל" כדי שהאודיו יעבוד באייפון -->
-  <div id="tapToStart">
-    <div>
-      <div class="small-text">Tap to start 😈 (needed for sound)</div>
-      <button id="startBtn">START</button>
+<body>
+  <div id="hint">tap to start 🔊</div>
+
+  <div id="screen">
+    <div id="step1" class="big-emoji shake">😈</div>
+
+    <div id="step2" class="mid-text hidden">
+      You think you’re the only one that can do cool stuff??
+    </div>
+
+    <div id="step3" class="big-text hidden">
+      SIKEEEEEEEE 🖕
+    </div>
+
+    <div id="step4" class="small-text hidden">
+      xoxo your wife :)
     </div>
   </div>
 
-  <div id="screen" class="mid-text"></div>
-
+  <!-- צחוק קצר (עובד רק אחרי טאצ׳ ראשון באייפון) -->
   <audio id="laugh" preload="auto">
-    <!-- צחוק קצר חינמי (אם לא ינגן, פשוט לא יהיה צליל) -->
-    <source src="https://actions.google.com/sounds/v1/human_giggles/male_giggle.ogg" type="audio/ogg">
-    <source src="https://actions.google.com/sounds/v1/human_giggles/male_giggle.ogg" type="audio/ogg">
+    <source src="https://actions.google.com/sounds/v1/human_voices/evil_laugh.ogg" type="audio/ogg">
+    <source src="https://actions.google.com/sounds/v1/human_voices/evil_laugh.mp3" type="audio/mpeg">
   </audio>
 
   <script>
-    const screen = document.getElementById('screen');
-    const overlay = document.getElementById('tapToStart');
-    const startBtn = document.getElementById('startBtn');
+    const s1 = document.getElementById('step1');
+    const s2 = document.getElementById('step2');
+    const s3 = document.getElementById('step3');
+    const s4 = document.getElementById('step4');
+    const hint = document.getElementById('hint');
     const laugh = document.getElementById('laugh');
 
-    const wait = (ms) => new Promise(r => setTimeout(r, ms));
+    let started = false;
 
-    function show(html, className) {
-      screen.className = className;
-      screen.style.opacity = '1';
-      screen.innerHTML = html;
+    function show(el){
+      el.classList.remove('hidden');
+      el.classList.add('shake');
+    }
+    function hide(el){
+      el.classList.add('hidden');
+      el.classList.remove('shake');
     }
 
-    async function fadeHide() {
-      screen.classList.add('fade-out');
-      await wait(380);
-      screen.classList.remove('fade-out');
-      screen.innerHTML = '';
+    function startSequence(){
+      if(started) return;
+      started = true;
+      hint.style.display = 'none';
+
+      // ניסיון להשמיע צחוק (ייתכן שידלק רק אחרי טאצ׳)
+      try { laugh.currentTime = 0; laugh.play(); } catch(e) {}
+
+      // 1) 😈 גדול ורועד -> נעלם
+      show(s1);
+      setTimeout(() => {
+        hide(s1);
+
+        // 2) משפט ראשון -> נעלם
+        show(s2);
+        setTimeout(() => {
+          hide(s2);
+
+          // 3) SIKEEEEEEEE🖕 גדול ורועד -> נעלם
+          show(s3);
+          setTimeout(() => {
+            hide(s3);
+
+            // 4) xoxo your wife :)
+            show(s4);
+          }, 1400);
+
+        }, 1700);
+
+      }, 1400);
     }
 
-    async function tryLaugh() {
-      try {
-        laugh.currentTime = 0;
-        await laugh.play();
-      } catch (e) {
-        // באייפון לפעמים חוסם אם אין אינטראקציה – לכן יש START
-      }
-    }
-
-    async function runShow() {
-      // 1) 😈 גדול ורועד
-      show('😈', 'big-emoji shake');
-      await tryLaugh();
-      await wait(1200);
-      await fadeHide();
-
-      // 2) משפט ראשון
-      show("You think you’re the only one that can do cool stuff??", 'mid-text shake');
-      await wait(1500);
-      await fadeHide();
-
-      // 3) SIKEEEEEEEE🖕 גדול ורועד
-      show("SIKEEEEEEEE🖕", 'big-text shake');
-      await tryLaugh();
-      await wait(1400);
-      await fadeHide();
-
-      // 4) סיום
-      show("xoxo your wife :)", 'small-text');
-    }
-
-    // להתחיל רק אחרי טאפ
-    startBtn.addEventListener('click', async () => {
-      overlay.classList.add('hidden');
-      await runShow();
-    });
-
-    // גם טאפ בכל מקום
-    overlay.addEventListener('click', async () => {
-      overlay.classList.add('hidden');
-      await runShow();
-    });
+    // באייפון חייב אינטראקציה (טאפ) כדי לאפשר אודיו
+    document.addEventListener('click', startSequence, { once: true });
+    document.addEventListener('touchstart', startSequence, { once: true });
   </script>
 </body>
 </html>
